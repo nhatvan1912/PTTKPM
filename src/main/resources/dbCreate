@@ -1,0 +1,330 @@
+-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+--
+-- Host: localhost    Database: garaman
+-- ------------------------------------------------------
+-- Server version	8.0.43
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `tblaccount`
+--
+
+DROP TABLE IF EXISTS `tblaccount`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblaccount` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userName` varchar(100) NOT NULL,
+  `passWord` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userName` (`userName`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblaccount`
+--
+
+LOCK TABLES `tblaccount` WRITE;
+/*!40000 ALTER TABLE `tblaccount` DISABLE KEYS */;
+INSERT INTO `tblaccount` VALUES (1,'customer1','123456'),(2,'nhatvan1912','123456'),(3,'customer2','123456'),(4,'staff_warehouse2','123456'),(5,'staff_mechanic','123456'),(6,'staff_manager','123456');
+/*!40000 ALTER TABLE `tblaccount` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbladdress`
+--
+
+DROP TABLE IF EXISTS `tbladdress`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbladdress` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `streetNumber` varchar(50) DEFAULT NULL,
+  `streetName` varchar(255) DEFAULT NULL,
+  `ward` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbladdress`
+--
+
+LOCK TABLES `tbladdress` WRITE;
+/*!40000 ALTER TABLE `tbladdress` DISABLE KEYS */;
+INSERT INTO `tbladdress` VALUES (1,'123','Nguyễn Huệ','P.1','TP.HCM','TP.HCM'),(2,'12','Phố Huế','Phường Ngô Thì Nhậm','Hai Bà Trưng','Hà Nội'),(3,'45','Láng Hạ','Phường Thành Công','Ba Đình','Hà Nội'),(4,'88','Nguyễn Văn Cừ','Phường Gia Thụy','Long Biên','Hà Nội'),(5,'102','Trần Duy Hưng','Phường Trung Hòa','Cầu Giấy','Hà Nội');
+/*!40000 ALTER TABLE `tbladdress` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblcustomer`
+--
+
+DROP TABLE IF EXISTS `tblcustomer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblcustomer` (
+  `tblUserid` int NOT NULL,
+  PRIMARY KEY (`tblUserid`),
+  CONSTRAINT `fk_tblCustomer_tblUser` FOREIGN KEY (`tblUserid`) REFERENCES `tbluser` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblcustomer`
+--
+
+LOCK TABLES `tblcustomer` WRITE;
+/*!40000 ALTER TABLE `tblcustomer` DISABLE KEYS */;
+INSERT INTO `tblcustomer` VALUES (1),(3);
+/*!40000 ALTER TABLE `tblcustomer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblimportdetail`
+--
+
+DROP TABLE IF EXISTS `tblimportdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblimportdetail` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantity` int NOT NULL,
+  `unitCost` decimal(10,2) NOT NULL,
+  `tblSparePartid` int NOT NULL,
+  `tblImportReceiptid` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_import_detail_receipt` (`tblImportReceiptid`),
+  KEY `idx_import_detail_part` (`tblSparePartid`),
+  CONSTRAINT `fk_tblImportDetail_tblImportReceipt` FOREIGN KEY (`tblImportReceiptid`) REFERENCES `tblimportreceipt` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_tblImportDetail_tblSparePart` FOREIGN KEY (`tblSparePartid`) REFERENCES `tblsparepart` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `tblimportdetail_chk_1` CHECK ((`quantity` > 0)),
+  CONSTRAINT `tblimportdetail_chk_2` CHECK ((`unitCost` >= 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblimportdetail`
+--
+
+LOCK TABLES `tblimportdetail` WRITE;
+/*!40000 ALTER TABLE `tblimportdetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblimportdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblimportreceipt`
+--
+
+DROP TABLE IF EXISTS `tblimportreceipt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblimportreceipt` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `createAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `totalPrice` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `tblWarehousetblStafftblUserid` int NOT NULL,
+  `tblSupplierid` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_import_receipt_supplier` (`tblSupplierid`),
+  KEY `idx_import_receipt_staff` (`tblWarehousetblStafftblUserid`),
+  KEY `idx_import_receipt_date` (`createAt`),
+  CONSTRAINT `fk_tblImportReceipt_tblSupplier` FOREIGN KEY (`tblSupplierid`) REFERENCES `tblsupplier` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `fk_tblImportReceipt_tblWarehouse` FOREIGN KEY (`tblWarehousetblStafftblUserid`) REFERENCES `tblwarehouse` (`tblStafftblUserid`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblimportreceipt`
+--
+
+LOCK TABLES `tblimportreceipt` WRITE;
+/*!40000 ALTER TABLE `tblimportreceipt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblimportreceipt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblservice`
+--
+
+DROP TABLE IF EXISTS `tblservice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblservice` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_tblService_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblservice`
+--
+
+LOCK TABLES `tblservice` WRITE;
+/*!40000 ALTER TABLE `tblservice` DISABLE KEYS */;
+INSERT INTO `tblservice` VALUES (1,'Bảo dưỡng A','Bảo dưỡng định kỳ cơ bản',500000.00),(2,'Thay dầu','Thay dầu động cơ',300000.00),(3,'Thay nhớt hộp số','Thay dầu hộp số tự động hoặc sàn',450000.00),(4,'Kiểm tra phanh','Kiểm tra, vệ sinh và thay má phanh nếu cần',350000.00),(5,'Căn chỉnh góc lái','Điều chỉnh cân bằng bánh xe và vô-lăng',400000.00),(6,'Vệ sinh kim phun','Làm sạch kim phun nhiên liệu bằng dung dịch chuyên dụng',600000.00),(7,'Thay nước làm mát','Thay nước làm mát động cơ xe hơi',250000.00);
+/*!40000 ALTER TABLE `tblservice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblsparepart`
+--
+
+DROP TABLE IF EXISTS `tblsparepart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblsparepart` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `quantity` int NOT NULL DEFAULT '0',
+  `unitPrice` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `sellPrice` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `idx_tblSparePart_name` (`name`),
+  CONSTRAINT `tblsparepart_chk_1` CHECK ((`quantity` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblsparepart`
+--
+
+LOCK TABLES `tblsparepart` WRITE;
+/*!40000 ALTER TABLE `tblsparepart` DISABLE KEYS */;
+INSERT INTO `tblsparepart` VALUES (1,'Lọc nhớt',20,150000.00,180000.00),(2,'Má phanh',15,800000.00,950000.00),(3,'Lọc gió động cơ',25,200000.00,250000.00),(4,'Bugi',40,100000.00,130000.00),(5,'Ắc quy 12V',10,1200000.00,1500000.00),(6,'Dây curoa',18,300000.00,350000.00),(7,'Lốp xe Bridgestone 205/55R16',12,1800000.00,2200000.00),(8,'Má phanh trước Toyota Vios',20,700000.00,850000.00);
+/*!40000 ALTER TABLE `tblsparepart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblstaff`
+--
+
+DROP TABLE IF EXISTS `tblstaff`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblstaff` (
+  `tblUserid` int NOT NULL,
+  PRIMARY KEY (`tblUserid`),
+  CONSTRAINT `fk_tblStaff_tblUser` FOREIGN KEY (`tblUserid`) REFERENCES `tbluser` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblstaff`
+--
+
+LOCK TABLES `tblstaff` WRITE;
+/*!40000 ALTER TABLE `tblstaff` DISABLE KEYS */;
+INSERT INTO `tblstaff` VALUES (2),(4),(5),(6);
+/*!40000 ALTER TABLE `tblstaff` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblsupplier`
+--
+
+DROP TABLE IF EXISTS `tblsupplier`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblsupplier` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `tblAddressid` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_tblSupplier_tblAddress` (`tblAddressid`),
+  KEY `idx_tblSupplier_name` (`name`),
+  CONSTRAINT `fk_tblSupplier_tblAddress` FOREIGN KEY (`tblAddressid`) REFERENCES `tbladdress` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblsupplier`
+--
+
+LOCK TABLES `tblsupplier` WRITE;
+/*!40000 ALTER TABLE `tblsupplier` DISABLE KEYS */;
+INSERT INTO `tblsupplier` VALUES (1,'Company A','0281234567',1),(2,'Company B','0282345678',1),(3,'Công ty TNHH AutoParts Hà Nội','02437654321',1),(4,'Garage Việt Auto','02438901234',2),(5,'Linh Kiện Ô Tô Thủ Đô','02436789012',3),(6,'Phụ Tùng Hà Thành','02435556789',4);
+/*!40000 ALTER TABLE `tblsupplier` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbluser`
+--
+
+DROP TABLE IF EXISTS `tbluser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbluser` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `fullName` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `tblAccountid` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tblAccountid` (`tblAccountid`),
+  CONSTRAINT `fk_tblUser_tblAccount` FOREIGN KEY (`tblAccountid`) REFERENCES `tblaccount` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbluser`
+--
+
+LOCK TABLES `tbluser` WRITE;
+/*!40000 ALTER TABLE `tbluser` DISABLE KEYS */;
+INSERT INTO `tbluser` VALUES (1,'Nguyễn Văn A','customer1@example.com','0901111111',1),(2,'Nhật Văn','nhatvan@garaman.com','0909999999',2),(3,'Trần Thị Khách','customer2@example.com','0912222222',3),(4,'Nguyễn Văn Kho','warehouse2@garaman.com','0913333333',4),(5,'Trần Cơ Khí','mechanic@garaman.com','0914444444',5),(6,'Phạm Quản Lý','manager@garaman.com','0915555555',6);
+/*!40000 ALTER TABLE `tbluser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblwarehouse`
+--
+
+DROP TABLE IF EXISTS `tblwarehouse`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblwarehouse` (
+  `tblStafftblUserid` int NOT NULL,
+  PRIMARY KEY (`tblStafftblUserid`),
+  CONSTRAINT `fk_tblWarehouse_tblStaff` FOREIGN KEY (`tblStafftblUserid`) REFERENCES `tblstaff` (`tblUserid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblwarehouse`
+--
+
+LOCK TABLES `tblwarehouse` WRITE;
+/*!40000 ALTER TABLE `tblwarehouse` DISABLE KEYS */;
+INSERT INTO `tblwarehouse` VALUES (2),(4);
+/*!40000 ALTER TABLE `tblwarehouse` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-11-05  9:18:08
