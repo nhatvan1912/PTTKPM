@@ -122,7 +122,7 @@ function confirmImport() {
 
     // staffId from session/user - fallback to 0
     let inp3 = document.createElement("input");
-    inp3.type = "hidden"; inp3.name = "staffId"; inp3.value = "<%= session.getAttribute(\"userId\") %>"; form.appendChild(inp3);
+    inp3.type = "hidden"; inp3.name = "staffId"; inp3.value = "<%= session.getAttribute("userId") %>"; form.appendChild(inp3);
 
     document.body.appendChild(form);
     form.submit();
