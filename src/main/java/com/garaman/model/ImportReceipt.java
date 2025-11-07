@@ -1,6 +1,7 @@
 package com.garaman.model;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,9 @@ public class ImportReceipt {
 
     public int getIdReceipt() { return idReceipt; }
     public void setIdReceipt(int idReceipt) { this.idReceipt = idReceipt; }
-    public Timestamp getCreatedAt() { return createdAt; }
+    public String getCreatedAt() {
+        return createdAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
     public double getTotalPrice() { return totalPrice; }
     public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }

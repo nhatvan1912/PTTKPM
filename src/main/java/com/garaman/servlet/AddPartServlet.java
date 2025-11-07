@@ -21,8 +21,8 @@ public class AddPartServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         int quantity = Integer.parseInt(req.getParameter("quantity"));
-        double unitPrice = Double.parseDouble(req.getParameter("unitPrice"));
-        double sellPrice = Double.parseDouble(req.getParameter("sellPrice"));
+        int unitPrice = Integer.parseInt(req.getParameter("unitPrice"));
+        int sellPrice = Integer.parseInt(req.getParameter("sellPrice"));
         SparePart part = new SparePart(0, name, quantity, unitPrice, sellPrice);
         try (SparePartDAO dao = new SparePartDAO()) {
             int id = dao.addSparePart(part);

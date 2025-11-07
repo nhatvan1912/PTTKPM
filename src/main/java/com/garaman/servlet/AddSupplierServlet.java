@@ -25,10 +25,10 @@ public class AddSupplierServlet extends HttpServlet {
         String streetNum = req.getParameter("streetNumber");
         String streetName = req.getParameter("streetName");
         String ward = req.getParameter("ward");
-        String city = req.getParameter("city");
+        String district = req.getParameter("district");
         String province = req.getParameter("province");
 
-        Address addr = new Address(0, streetNum, streetName, ward, city, province);
+        Address addr = new Address(0, streetNum, streetName, ward, district, province);
         Supplier supplier = new Supplier(0, name, phone, addr);
 
         try (SupplierDAO dao = new SupplierDAO()) {

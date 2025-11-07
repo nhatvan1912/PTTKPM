@@ -5,17 +5,17 @@ public class Address {
     private String streetNumber;
     private String streetName;
     private String ward;
-    private String city;
+    private String district;
     private String province;
 
     public Address() {}
 
-    public Address(int idAddress, String streetNumber, String streetName, String ward, String city, String province) {
+    public Address(int idAddress, String streetNumber, String streetName, String ward, String district, String province) {
         this.idAddress = idAddress;
         this.streetNumber = streetNumber;
         this.streetName = streetName;
         this.ward = ward;
-        this.city = city;
+        this.district = district;
         this.province = province;
     }
 
@@ -27,13 +27,13 @@ public class Address {
     public void setStreetName(String streetName) { this.streetName = streetName; }
     public String getWard() { return ward; }
     public void setWard(String ward) { this.ward = ward; }
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public String getDistrict() { return district; }
+    public void setDistrict(String district) { this.district = district; }
     public String getProvince() { return province; }
     public void setProvince(String province) { this.province = province; }
 
     @Override
     public String toString() {
-        return streetNumber + " " + streetName + ", " + ward + ", " + city + ", " + province;
+        return streetNumber + " " + streetName + ", " + ward + ", " + district + ", " + province;
     }
 }

@@ -11,7 +11,7 @@
     <title>GaraMan - Home</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f0f2f5; }
-        .header { background: #007BFF; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: #007BFF; color: white; padding: 5px 30px; display: flex; justify-content: space-between; align-items: center; }
         .user-info { display: flex; align-items: center; gap: 15px; }
         .logout-btn { padding: 8px 15px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; }
         .container { max-width: 1000px; margin: 50px auto; text-align: center; }

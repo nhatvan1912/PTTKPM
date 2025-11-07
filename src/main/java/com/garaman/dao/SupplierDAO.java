@@ -16,7 +16,7 @@ public class SupplierDAO extends DAO {
                    s.name       AS s_name,
                    s.phone      AS s_phone,
                    a.id         AS a_id,
-                   a.streetNumber, a.streetName, a.ward, a.city, a.province
+                   a.streetNumber, a.streetName, a.ward, a.district, a.province
             FROM tblSupplier s
             LEFT JOIN tblAddress a ON s.tblAddressid = a.id
             """;
@@ -32,7 +32,7 @@ public class SupplierDAO extends DAO {
                    s.name       AS s_name,
                    s.phone      AS s_phone,
                    a.id         AS a_id,
-                   a.streetNumber, a.streetName, a.ward, a.city, a.province
+                   a.streetNumber, a.streetName, a.ward, a.district, a.province
             FROM tblSupplier s
             LEFT JOIN tblAddress a ON s.tblAddressid = a.id
             WHERE s.id = ?
@@ -50,13 +50,13 @@ public class SupplierDAO extends DAO {
         try {
             Integer addrId = null;
             if (supplier.getAddress() != null) {
-                String insAddr = "INSERT INTO tblAddress (streetNumber, streetName, ward, city, province) VALUES (?,?,?,?,?)";
+                String insAddr = "INSERT INTO tblAddress (streetNumber, streetName, ward, district, province) VALUES (?,?,?,?,?)";
                 try (PreparedStatement ps = conn.prepareStatement(insAddr, Statement.RETURN_GENERATED_KEYS)) {
                     Address a = supplier.getAddress();
                     ps.setString(1, a.getStreetNumber());
                     ps.setString(2, a.getStreetName());
                     ps.setString(3, a.getWard());
-                    ps.setString(4, a.getCity());
+                    ps.setString(4, a.getDistrict());
                     ps.setString(5, a.getProvince());
                     ps.executeUpdate();
                     ResultSet rs = ps.getGeneratedKeys();
@@ -92,7 +92,7 @@ public class SupplierDAO extends DAO {
                     rs.getString("streetNumber"),
                     rs.getString("streetName"),
                     rs.getString("ward"),
-                    rs.getString("city"),
+                    rs.getString("district"),
                     rs.getString("province")
             );
         }

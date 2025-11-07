@@ -53,7 +53,7 @@ CREATE TABLE `tbladdress` (
   `streetNumber` varchar(50) DEFAULT NULL,
   `streetName` varchar(255) DEFAULT NULL,
   `ward` varchar(255) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
   `province` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

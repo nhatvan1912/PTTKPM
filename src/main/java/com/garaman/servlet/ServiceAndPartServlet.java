@@ -16,15 +16,21 @@ import java.util.List;
 public class ServiceAndPartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String keyword = req.getParameter("keyword");
+        String keyService = req.getParameter("keyService");
+        String keyPart = req.getParameter("keyPart");
         try (ServiceDAO serviceDAO = new ServiceDAO(); SparePartDAO partDAO = new SparePartDAO()) {
             List<Service> services;
             List<SparePart> parts;
-            if (keyword != null && !keyword.trim().isEmpty()) {
-                services = serviceDAO.getServicesByName(keyword);
-                parts = partDAO.getSparePartsByName(keyword);
+
+            if (keyService != null && !keyService.trim().isEmpty()) {
+                services = serviceDAO.getServicesByName(keyService);
             } else {
                 services = serviceDAO.getServices();
+            }
+
+            if (keyPart != null && !keyPart.trim().isEmpty()) {
+                parts = partDAO.getSparePartsByName(keyPart);
+            } else {
                 parts = partDAO.getSpareParts();
             }
             req.setAttribute("services", services);
